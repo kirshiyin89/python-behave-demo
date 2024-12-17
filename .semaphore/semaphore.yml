@@ -13,15 +13,8 @@ blocks:
         - name: Install Dependencies
           commands:
             - checkout
-            - run:
-                name: Set up Virtual Environment
-                command: |
-                  python3 -m venv venv
-                  source venv/bin/activate
-            - run:
-                name: Install Requirements
-                command: |
-                  pip install -r requirements.txt
+            - run: "python3 -m venv venv"
+            - run: "source venv/bin/activate && pip install -r requirements.txt"
 
   - name: Run Tests
     task:
@@ -29,15 +22,6 @@ blocks:
         - name: Run Tests
           commands:
             - checkout
-            - run:
-                name: Set up Virtual Environment
-                command: |
-                  source venv/bin/activate  # Reuse the existing virtual environment
-            - run:
-                name: Run Unit Tests
-                command: |
-                  python -m unittest discover tests
-            - run:
-                name: Run BDD Tests
-                command: |
-                  python -m behave features/password_reset.feature
+            - run: "source venv/bin/activate"
+            - run: "python -m unittest discover tests"
+            - run: "python -m behave features/password_reset.feature"

@@ -13,8 +13,8 @@ blocks:
         - name: Install Dependencies
           commands:
             - checkout
-            - run: "python3 -m venv venv"
-            - run: "source venv/bin/activate && pip install -r requirements.txt"
+            - "python3 -m venv venv"
+            - "source venv/bin/activate && pip install -r requirements.txt"
 
   - name: Run Tests
     task:
@@ -22,6 +22,6 @@ blocks:
         - name: Run Tests
           commands:
             - checkout
-            - run: "source venv/bin/activate"
-            - run: "python -m unittest discover tests"
-            - run: "python -m behave features/password_reset.feature"
+            - "source venv/bin/activate"
+            - "python -m unittest discover tests"
+            - "python -m behave features/password_reset.feature"

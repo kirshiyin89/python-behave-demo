@@ -4,25 +4,45 @@ agent:
   machine:
     type: f1-standard-2
     os_image: ubuntu2204
+# Define the blocks of work the CI will perform
 blocks:
-  - name: Test
+  - name: Install Dependencies
     task:
       jobs:
-        - name: pytest
-          matrix:
-            - env_vars: PYTHON_VERSION
-              values:
-                - '2.7'
-                - '3.5'
-                - '3.6'
-                - '3.7'
+        - name: Install Dependencies
           commands:
-            - sem-version python $PYTHON_VERSION
             - checkout
-            - python -m pip install --upgrade pip
-            - pip install -r requirements.txt
-            - pip install flake8
-            - 'flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics'
-            - flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
-            - pip install pytest
-            - pytest
+            - run:
+                name: Set up Virtual Environment
+                command: |
+                  python3 -m venv venv
+                  source venv/bin/activate
+            - run:
+                name: Install Requirements
+                command: |
+                  pip install -r requirements.txt
+
+  - name: Run Tests
+    task:
+      jobs:
+        - name: Run Tests
+          commands:
+            - checkout
+            - run:
+                name: Set up Virtual Environment
+                command: |
+                  python3 -m venv venv
+                  source venv/bin/activate
+            - run:
+                name: Install Dependencies
+                command: |
+                  pip install -r requirements.txt
+            - run:
+                name: Run Unit Tests
+                command: |
+                  python -m unittest discover tests
+            - run:
+                name: Run BDD Tests
+                command: |
+                  python -m behave features/password_reset.feature
+

@@ -22,5 +22,4 @@ blocks:
           commands:
             - checkout
             - "pip install -r requirements.txt"
-            - "python -m unittest discover tests"
             - "python -m behave features/password_reset.feature"

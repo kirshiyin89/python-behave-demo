@@ -4,6 +4,7 @@ agent:
   machine:
     type: f1-standard-2
     os_image: ubuntu2204
+
 # Define the blocks of work the CI will perform
 blocks:
   - name: Install Dependencies
@@ -31,12 +32,7 @@ blocks:
             - run:
                 name: Set up Virtual Environment
                 command: |
-                  python3 -m venv venv
-                  source venv/bin/activate
-            - run:
-                name: Install Dependencies
-                command: |
-                  pip install -r requirements.txt
+                  source venv/bin/activate  # Reuse the existing virtual environment
             - run:
                 name: Run Unit Tests
                 command: |
@@ -45,4 +41,3 @@ blocks:
                 name: Run BDD Tests
                 command: |
                   python -m behave features/password_reset.feature
-

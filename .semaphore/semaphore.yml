@@ -5,21 +5,31 @@ agent:
     type: e1-standard-2
     os_image: ubuntu2004
 
-# Define the blocks of work the CI will perform
 blocks:
-  - name: Install Dependencies
+  - name: "Install Dependencies"
     task:
+      prologue:
+        commands:
+          - sudo apt-get update && sudo apt-get install -y python3-dev
       jobs:
-        - name: Install Dependencies
+        - name: pip
           commands:
             - checkout
-            - sudo apt-get update && sudo apt-get install -y python3-dev
+            - cache restore
+            - pip download --cache-dir .pip_cache -r requirements.txt
+            - cache store
 
-  - name: Run Tests
+  - name: "Run Tests"
     task:
-      jobs:
-        - name: Run Tests
-          commands:
+      prologue:
+        commands:
             - checkout
-            - "pip install -r requirements.txt"
-            - "python -m behave features/password_reset.feature"
+            - cache restore
+            - pip install -r requirements.txt --cache-dir .pip_cache
+      jobs:
+        - name: Run Unit Tests
+          commands:
+            - python -m unittest
+        - name: Run BDD Tests
+          commands:
+            - python -m behave 

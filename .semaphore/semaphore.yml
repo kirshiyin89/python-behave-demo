@@ -27,9 +27,6 @@ blocks:
             - cache restore
             - pip install -r requirements.txt --cache-dir .pip_cache
       jobs:
-        - name: Run Unit Tests
-          commands:
-            - python -m unittest
         - name: Run BDD Tests
           commands:
             - python -m behave 

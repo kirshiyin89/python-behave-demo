@@ -1,0 +1,32 @@
+version: v1.0
+name: Python
+agent:
+  machine:
+    type: e1-standard-2
+    os_image: ubuntu2004
+
+blocks:
+  - name: "Install Dependencies"
+    task:
+      prologue:
+        commands:
+          - sudo apt-get update && sudo apt-get install -y python3-dev
+      jobs:
+        - name: pip
+          commands:
+            - checkout
+            - cache restore
+            - pip download --cache-dir .pip_cache -r requirements.txt
+            - cache store
+
+  - name: "Run Tests"
+    task:
+      prologue:
+        commands:
+            - checkout
+            - cache restore
+            - pip install -r requirements.txt --cache-dir .pip_cache
+      jobs:
+        - name: Run BDD Tests
+          commands:
+            - python -m behave 

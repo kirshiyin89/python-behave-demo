@@ -16,8 +16,6 @@ blocks:
         - name: pip
           commands:
             - checkout
-            - pip install --upgrade pip wheel
-            - pip install setuptools<67.0
             - pip download -r requirements.txt
 
   - name: "Run Tests"

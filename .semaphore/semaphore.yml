@@ -10,21 +10,22 @@ blocks:
     task:
       prologue:
         commands:
-          - rm -rf .pip_cache
           - sudo apt-get update && sudo apt-get install -y python3-dev
       jobs:
         - name: pip
           commands:
             - checkout
-            - pip install setuptools==75.8.0
-            - pip download -r requirements.txt
+            - cache restore
+            - pip download --cache-dir .pip_cache -r requirements.txt
+            - cache store
 
   - name: "Run Tests"
     task:
       prologue:
         commands:
             - checkout
-            - pip install -r requirements.txt
+            - cache restore
+            - pip install -r requirements.txt --cache-dir .pip_cache
       jobs:
         - name: Run BDD Tests
           commands:

@@ -6,6 +6,11 @@ agent:
     os_image: ubuntu2204
 
 blocks:
+  - name: Clear Cache
+    task:
+      commands:
+        - rm -rf .pip_cache
+
   - name: "Install Dependencies"
     task:
       prologue:

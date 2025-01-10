@@ -17,15 +17,14 @@ blocks:
           commands:
             - checkout
             - pip install --upgrade pip setuptools wheel
-            - pip download --cache-dir .pip_cache -r requirements.txt
-            - cache store
+            - pip download -r requirements.txt
 
   - name: "Run Tests"
     task:
       prologue:
         commands:
             - checkout
-            - pip install -r requirements.txt --cache-dir .pip_cache
+            - pip install -r requirements.txt
       jobs:
         - name: Run BDD Tests
           commands:

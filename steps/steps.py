@@ -1,5 +1,5 @@
 from behave import given, when, then
-from password_reset_system import PasswordResetSystem  # Importing the real class
+from password_reset_system import PasswordResetSystem
 
 # Initialize the system instance
 system = PasswordResetSystem()

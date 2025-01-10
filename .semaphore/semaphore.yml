@@ -16,6 +16,7 @@ blocks:
           commands:
             - checkout
             - cache restore
+            - pip install --upgrade pip setuptools wheel
             - pip download --cache-dir .pip_cache -r requirements.txt
             - cache store
 
